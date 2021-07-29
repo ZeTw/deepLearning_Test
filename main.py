@@ -1,21 +1,5 @@
 import numpy as np
 import matplotlib.pyplot as plt
-
-# data_train = open("dataSet/mnist_train_100.csv", 'r')
-# data_list = data_train.readlines()
-# data_train.close()
-#
-# all_value = data_list[0].split(',')
-# print(type(all_value[0]))
-# # image_array = np.asarray(all_value[1:], 'float64')
-# # print(image_array)
-# # print(type(image_array[0]))
-# image_array = np.asfarray(all_value[1:]).reshape((28, 28))  # asfarray() 转换为一个浮点型的数组
-# scaled_input = (image_array / 255.0 * 0.99) + 0.01
-# print(scaled_input)
-# plt.imshow(image_array, cmap='Greys', interpolation='None')
-#
-# plt.show()
 import scipy.special
 
 
@@ -36,16 +20,18 @@ class neuralNetwork:
         self.who = np.random.normal(0.0, pow(self.hinodes, -0.5), (self.outnodes, self.hinodes))  # (10,100)
         self.lr = learn
         self.activation_function = lambda x: scipy.special.expit(x)
-
-        '''
-        数据集处理：由于使用sigmoid函数，将目标值设置到 0.01--1的范围内 并设置目标值集合
-        '''
-
+   '''
+    以图片形式展示数据集中的数字
+   '''
+      
     def show_num(self, image_array):
         image_array = image_array.reshape((28, 28))
         plt.imshow(image_array, cmap='Greys', interpolation='None')
         plt.show()
-
+        
+    '''
+    数据集处理：由于使用sigmoid函数，将目标值设置到 0.01--1的范围内 并设置目标值集合
+    '''
     def data_deal(self, data_path):
         data_train = open(data_path, 'r')
         data_list = data_train.readlines()
@@ -62,7 +48,10 @@ class neuralNetwork:
             targets[int(train_value[0])] = 0.99
             target_list.append(targets)
         return np.array(target_list), np.array(train_list), np.array(num_list)
-
+    '''
+    训练函数：前向传播计算输出，同时反向传播更新权重矩阵
+    使用的激活函数为sigmoid
+    '''
     def train(self, train_set, target_set):
         input = np.array(train_set, ndmin=2).T
         target = np.array(target_set, ndmin=2).T
@@ -77,7 +66,10 @@ class neuralNetwork:
 
         self.who += self.lr * np.dot((output_error * final_output * (1.0 - final_output)), np.transpose(hidden_output))
         self.wih += self.lr * np.dot((hidden_error * hidden_output * (1.0 - hidden_output)), np.transpose(input))
-
+     
+      '''
+      使用train得到的权重矩阵计算最终输出值，用以和真实值进行对比，从而计算该神经网络的正确率
+      '''
     def query(self, input_list):
         inputs = np.array(input_list, ndmin=2).T
         hidden_inputs = np.dot(self.wih, inputs)
@@ -88,28 +80,38 @@ class neuralNetwork:
 
         return final_outputs
 
-
+# 初始化
 neural = neuralNetwork(784, 200, 10, 0.1)
+
+'''
+# 一开始使用100个数据的数据集进行训练，训练5次，虽然训练时的准确率挺高的 99%左右，但是在使用测试集进行测试时，准确率降到了60%
+#推测为训练数据集中的数据不够随机，导致测试时准确度下降
+target, train, num = neural.data_deal("dataSet/mnist_train_100.csv")
+for record in range(5):
+    score = []
+    for i, j, n in zip(train, target, num):
+        neural.train(i, j)
+        outputs = neural.query(i)
+        if n == np.argmax(outputs):
+            score.append(n)
+print(float(len(score) / len(num)))
+'''
+# 改用包含10000个数据的数据集进行训练，准确度提升至98% 且测试时的准确度在97%左右
 target, train, num = neural.data_deal("dataSet/mnist_train.csv")
-# print(num)
-# for record in range(5):
 score = []
 for i, j, n in zip(train, target, num):
-    # print(i.shape)
-    # print(j.shape)
     neural.train(i, j)
     outputs = neural.query(i)
-    # print(np.argmax(outputs))
+   
     if n == np.argmax(outputs):
         score.append(n)
 print(float(len(score) / len(num)))
-test_target, test_train, test_num = neural.data_deal("dataSet/mnist_test_10.csv")
+
+# 由于测试集数据比较少，因此改用含有100个数据的训练集进行测试
+test_target, test_train, test_num = neural.data_deal("dataSet/mnist_train_100.csv")
 test_score = []
-# for i in test_train:
-#     neural.show_num(i)
+
 for o, p, q in zip(test_train, test_target, test_num):
-    # print(i.shape)
-    # print(j.shape)
     outputs = neural.query(o)
     print(np.argmax(outputs))
     if q == np.argmax(outputs):
