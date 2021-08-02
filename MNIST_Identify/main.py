@@ -96,7 +96,7 @@ for record in range(5):
             score.append(n)
 print(float(len(score) / len(num)))
 '''
-# 改用包含10000个数据的数据集进行训练，准确度提升至98% 且测试时的准确度在97%左右
+# 改用包含60000个数据的数据集进行训练，准确度提升至98% 且测试时的准确度在97%左右
 target, train, num = neural.data_deal("dataSet/mnist_train.csv")
 score = []
 for i, j, n in zip(train, target, num):
