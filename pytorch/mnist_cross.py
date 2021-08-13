@@ -72,3 +72,47 @@ if __name__ == '__main__':
     for epoch in range(10):
         train(epoch)
         test()
+        
+'''
+运算结果：
+[1,  300] loss: 2.190
+[1,  600] loss: 0.912
+[1,  900] loss: 0.416
+Accuracy on test set: 89 %
+[2,  300] loss: 0.319
+[2,  600] loss: 0.272
+[2,  900] loss: 0.224
+Accuracy on test set: 93 %
+[3,  300] loss: 0.191
+[3,  600] loss: 0.170
+[3,  900] loss: 0.155
+Accuracy on test set: 95 %
+[4,  300] loss: 0.128
+[4,  600] loss: 0.126
+[4,  900] loss: 0.120
+Accuracy on test set: 96 %
+[5,  300] loss: 0.101
+[5,  600] loss: 0.094
+[5,  900] loss: 0.093
+Accuracy on test set: 97 %
+[6,  300] loss: 0.077
+[6,  600] loss: 0.077
+[6,  900] loss: 0.074
+Accuracy on test set: 97 %
+[7,  300] loss: 0.065
+[7,  600] loss: 0.058
+[7,  900] loss: 0.064
+Accuracy on test set: 97 %
+[8,  300] loss: 0.050
+[8,  600] loss: 0.050
+[8,  900] loss: 0.052
+Accuracy on test set: 97 %
+[9,  300] loss: 0.040
+[9,  600] loss: 0.041
+[9,  900] loss: 0.041
+Accuracy on test set: 97 %    
+[10,  300] loss: 0.035
+[10,  600] loss: 0.031
+[10,  900] loss: 0.034
+Accuracy on test set: 97 %
+'''
