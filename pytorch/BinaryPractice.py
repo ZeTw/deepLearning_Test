@@ -57,7 +57,6 @@ def test():
         for i, (inputs, labels) in enumerate(train_loader, 0):
             outputs = model(inputs)
             predicted = outputs.gt(0.5).to(torch.int)
-            #
             total += labels.size(0)
             correct += (predicted == labels).sum().item()
 
@@ -75,7 +74,6 @@ def plot_decision_boundary():  # 绘制决策边界
     # 而使用 meshgrid函数 能够保证xx 和 yy矩阵的维度是一致的 一个横坐标对应一个纵坐标
     # 将原有的矩阵在行方向上进行扩展 组成新的矩阵
     inputs = np.c_[xx.ravel(), yy.ravel()]
-    print(inputs.shape)
     Z = torch.tensor(inputs).to(torch.float32)
     outputs = model(Z).gt(0.5).to(torch.int).reshape(xx.shape)  # 将预测结果 reshape为 xx矩阵维度
 
