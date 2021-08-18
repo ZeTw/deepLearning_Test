@@ -10,10 +10,10 @@ from planar_utils import plot_decision_boundary, sigmoid, load_planar_dataset, l
 X, Y = load_planar_dataset()
 
 
-# c表示颜色数据 X 第0行表示该点的横坐标 第一行表示该点的纵坐标  Y对应的是该点的颜色
+# c表示颜色数据 X 第0行表示该点的横坐标 第一行表示该点的纵坐标  Y表示该点的颜色
 # s为每个点的面积 cmap 指的是colormap
 # 根据上述信息，要做的是一个二分类的神经网络，即将不同颜色的点区分开
-# 每个样本对应的输入有两个 横纵坐标，对应的输出有一个Y
+# 每个样本对应的输入有两个横纵坐标，对应的输出有一个Y
 plt.scatter(X[0, :], X[1, :], c=Y, s=40, cmap=plt.cm.Spectral)
 
 plt.show()
