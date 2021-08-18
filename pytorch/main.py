@@ -10,29 +10,13 @@ from planar_utils import plot_decision_boundary, sigmoid, load_planar_dataset, l
 X, Y = load_planar_dataset()
 
 
-# print(X[0][0], X[1][0])
-# X1 = X.T
-# print(X1[0][0], X1[0][1])
-#
-# X2 = X.reshape(X.shape[1], -1)
-# print(X2[0][0], X2[0][1])
-# X3 = torch.tensor(X2).to(torch.float32)
-# print(X3[0][0], X3[0][1])
-
-
-# print(type(X))
-
-# print(type(X))
-# print(X.shape)
-# print(Y.shape)
-# print(Y)
 # c表示颜色数据 X 第0行表示该点的横坐标 第一行表示该点的纵坐标  Y对应的是该点的颜色
 # s为每个点的面积 cmap 指的是colormap
 # 根据上述信息，要做的是一个二分类的神经网络，即将不同颜色的点区分开
 # 每个样本对应的输入有两个 横纵坐标，对应的输出有一个Y
-# plt.scatter(X[0, :], X[1, :], c=Y, s=40, cmap=plt.cm.Spectral)
-#
-# plt.show()
+plt.scatter(X[0, :], X[1, :], c=Y, s=40, cmap=plt.cm.Spectral)
+
+plt.show()
 
 class LogisticNet(torch.nn.Module):
     def __init__(self, nodes):
@@ -54,9 +38,8 @@ class MyDataset(Dataset):
         X, Y = load_planar_dataset()
         self.len = X.shape[1]
         self.x_data = torch.tensor(X.T).to(torch.float32)
-        # print(self.x_data[0][0],self.x_data[0][1])
         self.y_data = torch.tensor(Y.T).to(torch.float32)
-        # print('y_shape', self.y_data.shape)
+        
 
     def __len__(self):
         return self.len
@@ -65,8 +48,7 @@ class MyDataset(Dataset):
         return self.x_data[item], self.y_data[item]
 
 
-# print(X.shape)
-# print(Y.shape)
+
 
 def test():
     correct = 0
@@ -99,15 +81,14 @@ def plot_decision_boundary():  # 绘制决策边界
 
     # 然后画出图
     plt.contourf(xx, yy, outputs, cmap=plt.cm.Spectral)
-    # plt.scatter(X[0, :], X[1, :], c=Y, s=40, cmap=plt.cm.Spectral)
+    plt.scatter(X[0, :], X[1, :], c=Y, s=40, cmap=plt.cm.Spectral)
     plt.show()
 
 
 model = LogisticNet(10)
-# print(model.parameters())
+
 dataset = MyDataset()
 train_loader = DataLoader(dataset=dataset, batch_size=400, shuffle=True)
-# print(train_loader.dataset.__getitem__(0))
 criterion = torch.nn.BCELoss()
 optimizer = torch.optim.SGD(model.parameters(), lr=0.5)
 
