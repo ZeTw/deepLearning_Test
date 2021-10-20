@@ -26,27 +26,18 @@ def conv2(img_array, img_filter, axis=1):
             for h in range(img_h):
                 for w in range(img_w):
                     img_result[h][w][c] = (img_filter * img_array2[h:h + filter_h, w:w + filter_w, c]).sum()
-    plt.imshow(img_result)
-    plt.imsave('test.png', img_result)
-    # print((img_array == img_result).all())
-
-    plt.show()
+    # 需要注意的是，这里使用plt来展示和保存图片的话，会出现颜色变化，改为opencv就可以正常展示和保存了
+    cv2.imwrite('test.jpg', img_result)
+#     plt.imshow(img_result)
+#     plt.imsave('test.png', img_result)
+  
+#     plt.show()
 
 
 img_filter = np.array([[1, 2, 1], [2, 4, 2], [1, 2, 1]])
 img_filter = 1 / 16 * img_filter
 
 img = cv2.imread('test.png')
-print(img.shape)
-exit()
-# plt.imshow(img)
-# plt.show()
-# img = np.arange(25).reshape(5, 5)
-# print(img)
 
-# img_GaussianBlur = cv2.GaussianBlur(img, (3, 3), 0)
-# cv2.imshow('img_g', img_GaussianBlur)
-# cv2.waitKey(0)
 conv2(img, img_filter)
-# imgresult = img_filter * img[:, 0:3, 0:3]
-# print(imgresult)
+
