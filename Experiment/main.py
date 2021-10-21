@@ -3,8 +3,20 @@ import cv2
 import matplotlib.pyplot as plt
 
 '''
-实现图像与卷积核的卷积运算
-高斯模糊之类的运算 肯定要求输出
+equalization(img_array): 
+    https://blog.csdn.net/schwein_van/article/details/84336633
+    直方图均衡化:对灰度图像进行处理 , 彩色图像的均衡化可以对每个通道单独处理之后再将通道进行拼接
+    img_array:单通道灰度图数组
+    num_array:单通道灰度图采用8位表示像素，灰度范围 0-255 该数组用来保存图像中每个灰度的数目
+    N:该图像包含的像素个数
+    pr: 用于记录所有灰度占整个图像的比例
+    pix_min:图像中的最小灰度值 pin_max:图像中的最大灰度值
+    s:用于存储经过处理之后的新的灰度值
+    最后将灰度值按照对应关系更新原图像数组
+
+conv2(img_array, img_filter, axis=1):
+    手写卷积，卷积核不同可实现边缘检测或者去噪 单通道、多通道都可以
+    目前输入和输出的大小是完全一致的，且stride=1
 '''
 
 
@@ -41,3 +53,10 @@ img = cv2.imread('test.png')
 
 conv2(img, img_filter)
 
+img = cv2.imread('0043.jpg')
+# equalization(img)
+img_result = np.zeros_like(img, dtype=int)
+for i in range(img.shape[2]):
+    img_result[..., i] = equalization(img[..., i])
+
+cv2.imwrite('3_test.jpg', img_result)
